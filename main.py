@@ -1,24 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 driver = webdriver.Firefox()
-driver.implicitly_wait(10)
 
-driver.get('http://localhost:5000/examples/1')
+driver.implicitly_wait(5)
 
-my_el = driver.find_element(By.ID,'btn')
-my_el.click()
+driver.get('localhost:5000/examples/2')
 
-my_el = driver.find_element(By.ID,'title')
-print(my_el.text)
+sum1 = driver.find_element(By.ID,'sum1')
+sum1.send_keys(15)
 
-WebDriverWait(driver,100).until(
-    EC.text_to_be_present_in_element(
-        (By.ID,'title'),
-        'Completed'
-    )
-)
+sum2 = driver.find_element(By.ID,'sum2')
+# sum2.send_keys(30)
+sum2.send_keys(Keys.NUMPAD3,Keys.NUMPAD0)
 
-print(my_el.text)
+btn = driver.find_element(By.CSS_SELECTOR,'button[onclick="return total()"]')
+btn.click()
+# https://www.w3schools.com/cssref/css_selectors.asp -> css selectors
+
+result = driver.find_element(By.ID,'displayvalue')
+print(result.text)
